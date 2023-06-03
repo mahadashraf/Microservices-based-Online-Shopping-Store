@@ -1,0 +1,30 @@
+version: "3"
+services:
+  microservice-1:
+    build: ./microservice-1
+    ports:
+      - 8000:80
+    depends_on:
+      - mysql
+    networks:
+      - mynetwork
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydatabase
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - mynetwork
+
+  microservice-2:
+    build: ./microservice-2
+    ports:
+      - 5000:5000
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
